@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8e5e8" />
+  <meta name="description" content="A little envelope, a song, and a letter from my heart. Happy first anniversary, Wiku." />
+  <title>For My Baby Wiku ♡</title>
+  <style>
+    :root {
+      --blush: #f8e5e8;
+      --pink: #f1c5d1;
+      --rose: #d98ca5;
+      --deep-rose: #b96e88;
+      --brown: #70483d;
+      --dark-brown: #4b3028;
+      --cream: #fff9f1;
+      --paper-edge: #ead7c8;
+      --shadow: rgba(82, 48, 42, .18);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Trebuchet MS", Arial, sans-serif;
+      --script: "Segoe Script", "Brush Script MT", cursive;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--dark-brown);
+      font-family: var(--sans);
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255,255,255,.72), transparent 38%),
+        radial-gradient(ellipse at 85% 80%, rgba(217,140,165,.22), transparent 36%),
+        linear-gradient(145deg, #fbeef0, var(--blush) 50%, #f1d7d4);
+      overflow-x: hidden;
+    }
+
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--deep-rose);
+      outline-offset: 4px;
+    }
+
+    .ambient {
+      position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+    }
+    .ambient-heart {
+      position: absolute;
+      bottom: -40px;
+      color: rgba(185, 110, 136, .25);
+      animation: driftUp linear infinite;
+      user-select: none;
+    }
+    .sparkle {
+      position: absolute;
+      color: rgba(255,255,255,.9);
+      text-shadow: 0 0 12px rgba(185,110,136,.55);
+      animation: twinkle 3.5s ease-in-out infinite;
+    }
+    @keyframes driftUp {
+      from { transform: translateY(0) rotate(0deg); opacity: 0; }
+      12% { opacity: .7; }
+      85% { opacity: .5; }
+      to { transform: translateY(-115vh) rotate(28deg); opacity: 0; }
+    }
+    @keyframes twinkle { 0%,100% { opacity:.25; transform:scale(.8); } 50% { opacity:1; transform:scale(1.18); } }
+    @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+    @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.08); } }
+    @keyframes flapOpen { from { transform:rotateX(0deg); } to { transform:rotateX(180deg); } }
+    @keyframes letterRise { from { transform:translate(-50%, 18%); } to { transform:translate(-50%, -8%); } }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes beat { 0%,100% { transform:scale(1); } 15% { transform:scale(1.13); } 30% { transform:scale(1); } 45% { transform:scale(1.08); } }
+    @keyframes petals { from { transform:translateY(-12vh) rotate(0); opacity:0; } 15% {opacity:.75;} to {transform:translateY(110vh) rotate(300deg); opacity:0;} }
+
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100svh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: max(28px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom));
+    }
+    .top-mark {
+      margin: 6px 0 0;
+      color: var(--brown);
+      letter-spacing: .17em;
+      font-size: .72rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .view {
+      display: none;
+      width: 100%;
+      max-width: 760px;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn .7s ease both;
+    }
+    .view.active { display: flex; }
+
+    .intro {
+      text-align: center;
+      max-width: 540px;
+      margin: 34px auto 28px;
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--deep-rose);
+      letter-spacing: .19em;
+      font-size: .72rem;
+      text-transform: uppercase;
+    }
+    h1, h2, .script { font-family: var(--script), var(--serif); font-weight: 500; }
+    h1 {
+      font-size: clamp(2.8rem, 10vw, 5rem);
+      line-height: 1.05;
+      margin: 0;
+      color: var(--brown);
+    }
+    .intro-subtitle {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1rem, 3.8vw, 1.25rem);
+      margin: 18px 0 0;
+      line-height: 1.7;
+      color: #805b50;
+    }
+
+    .envelope-scene {
+      width: min(86vw, 430px);
+      aspect-ratio: 1.34 / 1;
+      position: relative;
+      perspective: 1100px;
+      margin: 6px auto 25px;
+      filter: drop-shadow(0 22px 20px rgba(93,54,49,.13));
+    }
+    .envelope {
+      position: absolute; inset: 12% 0 0;
+      border-radius: 7px;
+      background: #e9b8c5;
+      box-shadow: 0 12px 22px rgba(91,54,48,.13);
+      animation: float 4s ease-in-out infinite;
+      overflow: visible;
+    }
+    .env-back {
+      position: absolute; inset: 0;
+      border-radius: 7px;
+      background: linear-gradient(145deg, #f4cbd5, #e6aebd);
+    }
+    .env-letter {
+      position: absolute;
+      left: 50%; bottom: 8%;
+      width: 82%; height: 91%;
+      transform: translateX(-50%);
+      border: 1px solid #ead7c8;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #fffdf7, #fff5e9);
+      padding: 22px 14px;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      color: var(--brown);
+      text-align: center;
+      box-shadow: 0 2px 7px rgba(80,47,38,.08);
+      transition: transform 1s cubic-bezier(.2,.8,.2,1);
+      z-index: 2;
+    }
+    .env-letter .mini-heart { font-size: 1.3rem; color: var(--rose); }
+    .env-letter strong {
+      font-family: var(--serif);
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      font-weight: 400;
+      margin-top: 9px;
+    }
+    .env-letter span:last-child { font-size: .74rem; margin-top: 7px; color: #986c60; }
+    .env-front {
+      position: absolute; inset: 0; border-radius: 7px; overflow: hidden; z-index: 3;
+      background: linear-gradient(145deg, #f0c1cd, #e7aab9);
+      clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+    }
+    .env-front::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(35deg, rgba(255,255,255,.16), transparent 48%);
+    }
+    .env-flap {
+      position: absolute; top: 0; left: 0; width: 100%; height: 64%;
+      z-index: 5; transform-origin: top center; transform-style: preserve-3d;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background: linear-gradient(160deg, #f6d4dc, #e7a9b9);
+      backface-visibility: visible;
+      transition: transform .9s cubic-bezier(.2,.7,.2,1);
+    }
+    .seal {
+      position: absolute; z-index: 6; top: 43%; left: 50%;
+      width: 62px; height: 62px; transform: translate(-50%,-50%);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      color: #fff2f2;
+      font-family: var(--serif); font-size: 1.7rem;
+      background: radial-gradient(circle at 30% 25%, #b87c86, #85515a 70%);
+      border: 3px solid rgba(255,238,235,.65);
+      box-shadow: 0 4px 10px rgba(81,42,45,.22), inset 0 0 0 2px rgba(255,255,255,.2);
+      animation: pulse 2.7s ease-in-out infinite;
+      transition: opacity .35s, transform .45s;
+    }
+    .envelope.opening .env-flap { transform: rotateX(180deg); z-index: 1; }
+    .envelope.opening .seal { opacity: 0; transform: translate(-50%,-50%) scale(.5); }
+    .envelope.opening .env-letter { transform: translate(-50%, -17%); }
+    .envelope.opened .env-letter { transform: translate(-50%, -26%); }
+    .envelope.opened .env-flap { transform: rotateX(180deg); z-index: 1; }
+    .envelope.opened .seal { opacity: 0; }
+    .envelope.opened .env-front { z-index: 3; }
+    .envelope.opened { animation: none; }
+
+    .hint {
+      margin: 0 0 18px;
+      color: #805b50;
+      text-align: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1rem;
+    }
+    .primary-btn, .secondary-btn {
+      border: 0; cursor: pointer; border-radius: 999px;
+      min-height: 48px; padding: 14px 25px;
+      letter-spacing: .08em; font-size: .78rem; font-weight: 700;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .primary-btn {
+      color: #fffaf8;
+      background: linear-gradient(135deg, #8b5a4d, #684237);
+      box-shadow: 0 8px 20px rgba(104,66,55,.2);
+    }
+    .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(104,66,55,.25); }
+    .primary-btn:active, .secondary-btn:active { transform: scale(.98); }
+    .secondary-btn {
+      color: var(--brown); background: rgba(255,249,241,.75);
+      border: 1px solid rgba(112,72,61,.2);
+    }
+    .button-row { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:22px; }
+
+    .letter-wrap {
+      width: 100%;
+      padding: 20px 0 30px;
+    }
+    .letter-paper {
+      width: min(100%, 690px);
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      padding: clamp(26px, 6vw, 56px) clamp(21px, 6vw, 58px);
+      border: 1px solid #ead7c8;
+      border-radius: 5px;
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(233,203,178,.14), transparent 40%),
+        linear-gradient(145deg, #fffdf8, var(--cream));
+      box-shadow: 0 18px 48px var(--shadow), inset 0 0 0 5px rgba(238,219,203,.17);
+    }
+    .letter-paper::before, .letter-paper::after {
+      content: "♡"; position: absolute; color: rgba(217,140,165,.28); font-size: 1.4rem;
+    }
+    .letter-paper::before { top: 17px; right: 20px; }
+    .letter-paper::after { bottom: 17px; left: 20px; }
+    .letter-top { text-align:center; margin-bottom: 27px; }
+    .letter-top .ornament { color: var(--rose); font-size: 1.35rem; letter-spacing: .4em; }
+    .letter-top h2 {
+      color: var(--brown); font-size: clamp(2rem, 7vw, 3.1rem);
+      line-height: 1.15; margin: 10px 0 8px;
+    }
+    .letter-top p { margin:0; color:#9a7165; font-size:.77rem; letter-spacing:.12em; text-transform:uppercase; }
+    .letter-body {
+      font-family: var(--serif);
+      font-size: clamp(1rem, 2.7vw, 1.12rem);
+      line-height: 1.95;
+      color: #50372f;
+      overflow-wrap: anywhere;
+    }
+    .letter-body p { margin: 0 0 1.25em; }
+    .letter-body .salutation { font-size: 1.12em; }
+    .letter-body .emphasis {
+      text-align:center; padding: 20px 10px; margin: 25px 0;
+      color: #87566a; font-style: italic; font-size: 1.08em;
+      border-top: 1px solid #e9cbd3; border-bottom: 1px solid #e9cbd3;
+    }
+    .letter-body .signoff { text-align:right; margin-top: 28px; }
+    .letter-body .signature {
+      display:block; margin-top: 8px; color:#8a5868;
+      font-family: var(--script), cursive; font-size: 1.6em;
+    }
+    .end-heart { display:block; text-align:center; color:var(--rose); font-size:2.2rem; margin:24px 0 0; animation:beat 2.2s ease-in-out infinite; }
+    .closing-note { text-align:center; color:#906a60; font-family:var(--serif); font-style:italic; margin:24px 0 0; }
+    footer { position:relative; z-index:1; text-align:center; color:#986e75; font-size:.75rem; letter-spacing:.04em; padding:18px 10px 4px; }
+
+    .music-card {
+      position: fixed; z-index: 20; right: 14px; bottom: max(14px, env(safe-area-inset-bottom));
+      display:flex; align-items:center; gap:9px;
+      max-width: calc(100vw - 28px);
+      padding: 9px 12px;
+      background: rgba(255,249,241,.94);
+      border:1px solid rgba(112,72,61,.17);
+      border-radius:999px; box-shadow:0 7px 22px rgba(82,48,42,.14);
+      backdrop-filter: blur(12px);
+    }
+    .music-icon { color:var(--deep-rose); font-size:1.05rem; }
+    .music-icon.playing { animation: pulse 1.3s ease-in-out infinite; }
+    .music-label { font-size:.72rem; color:var(--brown); max-width:105px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .music-btn {
+      border:0; border-radius:50%; width:34px; height:34px; cursor:pointer;
+      display:grid; place-items:center; color:white; background:var(--brown);
+      font-size:.88rem; flex-shrink:0;
+    }
+    .music-btn.secondary { color:var(--brown); background:#f5e3e5; }
+    .music-status { display:block; font-size:.61rem; color:#9b7770; margin-top:2px; }
+    #background-audio { display: none; }
+
+    .notice {
+      width:min(100%, 520px); margin:15px auto 0; color:#8b655c;
+      font-size:.78rem; line-height:1.5; text-align:center;
+    }
+    .hidden { display:none !important; }
+
+    @media (max-width: 480px) {
+      .page { padding-left:14px; padding-right:14px; }
+      .intro { margin-top:28px; margin-bottom:21px; }
+      .envelope-scene { width:min(88vw, 380px); }
+      .seal { width:54px; height:54px; font-size:1.5rem; }
+      .env-letter { padding-top:18px; }
+      .letter-paper { padding:27px 21px 32px; }
+      .letter-body { line-height:1.82; }
+      .music-card { right:10px; bottom:max(10px, env(safe-area-inset-bottom)); }
+      .music-label { max-width:80px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important; transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient" id="ambient" aria-hidden="true"></div>
+
+  <main class="page">
+    <p class="top-mark">sealed with love · made for Wiku</p>
+
+    <section class="view active" id="welcome-view" aria-labelledby="welcome-title">
+      <div class="intro">
+        <p class="eyebrow">A little surprise for you</p>
+        <h1 id="welcome-title">To my baby Wiku <span aria-hidden="true">♡</span></h1>
+        <p class="intro-subtitle">One year of loving you, and a lifetime to go...</p>
+      </div>
+
+      <div class="envelope-scene" aria-label="A pink envelope sealed with a heart">
+        <div class="envelope" id="envelope">
+          <div class="env-back"></div>
+          <div class="env-letter" aria-hidden="true">
+            <span class="mini-heart">♡</span>
+            <strong>For my favorite person</strong>
+            <span>A letter from my heart</span>
+          </div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="seal" aria-hidden="true">W</div>
+        </div>
+      </div>
+
+      <p class="hint">You have a little something from me, baby...</p>
+      <button class="primary-btn" id="open-btn" type="button">OPEN YOUR LETTER ♡</button>
+      <p class="notice">Find a cozy moment, baby. This little letter is just for you.</p>
+    </section>
+
+    <section class="view" id="revealed-view" aria-labelledby="revealed-title">
+      <div class="intro">
+        <p class="eyebrow">Just for you, my love</p>
+        <h1 id="revealed-title">A letter from my heart</h1>
+        <p class="intro-subtitle">Every word is wrapped in all the love I have for you.</p>
+      </div>
+      <div class="envelope-scene" aria-hidden="true">
+        <div class="envelope opened">
+          <div class="env-back"></div>
+          <div class="env-letter">
+            <span class="mini-heart">♡</span>
+            <strong>Happy 1st Anniversary</strong>
+            <span>To my baby Wiku</span>
+          </div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="seal">W</div>
+        </div>
+      </div>
+      <button class="primary-btn" id="read-btn" type="button">READ MY LETTER ♡</button>
+    </section>
+
+    <section class="view" id="letter-view" aria-labelledby="letter-heading">
+      <div class="letter-wrap">
+        <article class="letter-paper">
+          <header class="letter-top">
+            <div class="ornament" aria-hidden="true">♡ · ♡ · ♡</div>
+            <h2 id="letter-heading">One Year of Us</h2>
+            <p>Our first anniversary · A letter from my heart</p>
+          </header>
+
+          <div class="letter-body">
+            <p class="salutation">To my baby Wiku,</p>
+
+            <p>Happy first anniversary, bebe ko Wiku!!</p>
+
+            <p>Can you believe it, baby? One whole year of us. One year of loving each other, choosing each other, making memories, overcoming challenges, and growing together. If someone had told me a year ago how much you would mean to me today, I don’t think I could have imagined just how deep my love for you would become. But here we are, celebrating our first year together, and if there’s one thing I’m sure of, it’s that you’re still the person I want beside me, not just today, but in all the days that are yet to come.</p>
+
+            <p>Baby, thank you for coming into my life and making it so much more beautiful. Thank you for being my happiness on days when everything feels heavy, for giving me reasons to smile even when I’m tired, and for making me feel loved in ways that words sometimes can’t explain. Thank you for every little thing you do, even the things you might think are ordinary. Every message, every call, every laugh, every moment we spend together, and every little reassurance means more to me than you know. You have become such a special part of my life, and I honestly can’t imagine my days without you anymore.</p>
+
+            <p>I know our relationship isn’t always easy, especially because we’re in a long-distance relationship. There are days when I wish I could be beside you, hold your hand, hug you when you’re tired, kiss your forehead when you’re sad, and look into your eyes instead of looking at you through a screen. Sometimes, I wish distance wasn’t something we had to deal with. I wish I could simply go to you whenever I miss you and hold you until the feeling goes away. But even if I can’t do those things as often as I want to right now, please know that my love for you doesn’t become smaller just because we’re far apart. If anything, this distance keeps reminding me how much I want to be with you and how precious every moment with you truly is.</p>
+
+            <p>Baby, I want you to know that you don’t have to be perfect for me to love you. You don’t have to be happy all the time, you don’t have to hide your sadness, and you don’t have to pretend that everything is okay when it isn’t. I want to be someone you can run to when the world feels too heavy. I want to listen to your stories, comfort you when you’re overthinking, celebrate your achievements, encourage you when you doubt yourself, and remind you of your worth whenever you forget it. I want to love not only the happy and easy parts of you, but also the parts that you’re still learning to understand. I want you to feel safe with me, baby, because your heart is something I will always want to handle with care.</p>
+
+            <p>I’m not going to promise that our relationship will always be perfect because I know there will be misunderstandings, difficult days, and moments when we won’t see things the same way. But I promise to keep learning how to love you better. I promise to listen, to communicate, to understand you, and to make an effort even when things aren’t easy. When we have disagreements, I hope we always remember that it’s never supposed to be you against me. It’s us against the problem. I don’t want pride to be bigger than our love, and I don’t want temporary emotions to make us forget everything we’ve built together. I want us to keep choosing patience, honesty, forgiveness, and understanding. I want us to continue being each other’s support system, the kind of love that helps us grow and become better people.</p>
+
+            <p>My baby Wiku, I am so proud of you. I hope you never forget how special you are, not only to me but as the person you are becoming. I hope you achieve the dreams you’ve been keeping in your heart. I hope life gives you more reasons to smile, more opportunities to grow, and more beautiful things to look forward to. And when life gets difficult, I hope you remember that you don’t have to face everything alone. I want to be there cheering for you, celebrating every little victory, comforting you after every disappointment, and reminding you that I believe in you even on the days when you struggle to believe in yourself.</p>
+
+            <p>And baby, if there’s one thing I want for our future, it’s for us to keep growing together. I look forward to the day when missing you doesn’t mean waiting for a message or a video call. I look forward to the day when I can finally hug you for as long as I want, hold your hand while we’re walking together, take pictures with you, go on dates, and create memories that we won’t have to experience through a screen. I look forward to the simple things, too, like seeing you when you wake up, laughing at the most random things, eating together, and spending ordinary days with you. Because honestly, baby, I don’t need every moment with you to be extraordinary. Even the simplest moments would be special as long as I get to share them with you.</p>
+
+            <p>I know we still have so much to learn about each other. We still have so many anniversaries to celebrate, so many memories to make, so many challenges to overcome, and so many dreams to work toward. But I don’t feel like we need to have everything figured out right now. We can take our time, grow at our own pace, and learn along the way. What matters to me is that we’re willing to keep showing up for each other, keep being honest with each other, and keep building something beautiful together.</p>
+
+            <p>Thank you for being my baby, my love, my comfort, and one of the most beautiful blessings in my life. Thank you for giving me a kind of happiness that I can’t fully explain. Thank you for being part of my story and allowing me to be part of yours, too. I may not always find the perfect words to express what I feel, and there may be times when I fail to show you just how much I love you, but I hope my actions will continue to remind you that you are loved, appreciated, and treasured.</p>
+
+            <p>If I could go back to the beginning of our relationship and choose all over again, I would still choose you, baby. I would choose to know you, to love you, to learn about you, and to take this journey with you. Not because I know everything will be easy, but because I believe that what we have is worth taking care of. And if life gives us more years together, I hope that when we look back on this first anniversary, we’ll smile at how far we’ve come and be thankful that we never stopped trying.</p>
+
+            <p>I love you, baby. I love you on the days when everything feels right, and I love you on the days when things feel difficult. I love you when we’re laughing together, and I love you when all we can do is miss each other from afar. I love you in the little moments, in the quiet moments, and in all the moments in between. And as we celebrate this first year, I hope you feel even a little of the happiness and love that you have brought into my life.</p>
+
+            <p>You are my baby Wiku, and I am so grateful that I get to call you my bebe. If there’s one thing I hope you carry in your heart after reading this letter, it’s this: you are loved more than you know, you are appreciated more than I can explain, and you are someone I will always be thankful for.</p>
+
+            <p><strong>Happy 1st anniversary, my baby Wiku. I love you endlessly.</strong></p>
+
+            <p class="signoff">I love you always,<span class="signature">xineyot</span></p>
+          </div>
+          <span class="end-heart" aria-hidden="true">♥</span>
+          <p class="closing-note">A little envelope. A song. A letter from my heart. ♡</p>
+        </article>
+        <div class="button-row">
+          <button class="secondary-btn" id="replay-btn" type="button">READ IT AGAIN, BABY ♡</button>
+          <button class="secondary-btn" id="back-btn" type="button">BACK TO ENVELOPE</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>made with love, just for you ♡</footer>
+  </main>
+
+  <div class="music-card" role="group" aria-label="Background music controls">
+    <span class="music-icon" id="music-note" aria-hidden="true">♫</span>
+    <div>
+      <div class="music-label">Our little song</div>
+      <span class="music-status" id="music-status" aria-live="polite">Tap to play</span>
+    </div>
+    <button class="music-btn" id="music-toggle" type="button" aria-label="Play background music" title="Play music">▶</button>
+    <button class="music-btn secondary" id="mute-toggle" type="button" aria-label="Mute background music" title="Mute or unmute">♪</button>
+  </div>
+
+  <audio id="background-audio" preload="none" loop>
+    <source src="daylight-sax-cover.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    "use strict";
+
+    // Keep this MP3 in the same GitHub repository as index.html.
+    const audio = document.getElementById("background-audio");
+    const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const views = {
+      welcome: document.getElementById("welcome-view"),
+      revealed: document.getElementById("revealed-view"),
+      letter: document.getElementById("letter-view")
+    };
+    const envelope = document.getElementById("envelope");
+    const openBtn = document.getElementById("open-btn");
+    const readBtn = document.getElementById("read-btn");
+    const replayBtn = document.getElementById("replay-btn");
+    const backBtn = document.getElementById("back-btn");
+    const musicToggle = document.getElementById("music-toggle");
+    const muteToggle = document.getElementById("mute-toggle");
+    const musicStatus = document.getElementById("music-status");
+    const musicNote = document.getElementById("music-note");
+
+    let currentView = "welcome";
+    let isMuted = false;
+    let openingTimer = null;
+
+    function showView(name) {
+      Object.entries(views).forEach(([key, el]) => {
+        const active = key === name;
+        el.classList.toggle("active", active);
+        el.setAttribute("aria-hidden", String(!active));
+      });
+      currentView = name;
+      if (name === "letter") {
+        window.scrollTo({ top: 0, behavior: REDUCED_MOTION ? "auto" : "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+    }
+
+    function createAmbientDecor() {
+      const root = document.getElementById("ambient");
+      const heartCount = window.innerWidth < 600 ? 10 : 17;
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement("span");
+        heart.className = "ambient-heart";
+        heart.textContent = ["♡", "♥", "ღ"][i % 3];
+        heart.style.left = `${(i * 37 + 7) % 100}%`;
+        heart.style.fontSize = `${12 + (i % 4) * 6}px`;
+        heart.style.animationDuration = `${14 + (i % 7) * 2}s`;
+        heart.style.animationDelay = `${-(i % 12) * 1.7}s`;
+        root.appendChild(heart);
+      }
+      for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle";
+        sparkle.textContent = "✧";
+        sparkle.style.left = `${(i * 29 + 11) % 97}%`;
+        sparkle.style.top = `${(i * 23 + 8) % 92}%`;
+        sparkle.style.fontSize = `${10 + (i % 3) * 4}px`;
+        sparkle.style.animationDelay = `${(i % 6) * .55}s`;
+        root.appendChild(sparkle);
+      }
+    }
+
+    function openEnvelope() {
+      if (openingTimer) return;
+      openBtn.disabled = true;
+      openBtn.textContent = "OPENING WITH LOVE…";
+      envelope.classList.add("opening");
+      startMusicAfterGesture();
+      const delay = REDUCED_MOTION ? 100 : 1450;
+      openingTimer = window.setTimeout(() => {
+        envelope.classList.add("opened");
+        showView("revealed");
+        openingTimer = null;
+        openBtn.disabled = false;
+        openBtn.textContent = "OPEN YOUR LETTER ♡";
+      }, delay);
+    }
+
+    function resetEnvelope() {
+      if (openingTimer) {
+        clearTimeout(openingTimer);
+        openingTimer = null;
+      }
+      envelope.classList.remove("opening", "opened");
+      showView("welcome");
+    }
+
+    openBtn.addEventListener("click", openEnvelope);
+    readBtn.addEventListener("click", () => showView("letter"));
+    replayBtn.addEventListener("click", () => {
+      showView("welcome");
+      envelope.classList.remove("opening", "opened");
+      window.setTimeout(() => {
+        document.getElementById("welcome-title").focus?.();
+      }, 0);
+    });
+    backBtn.addEventListener("click", resetEnvelope);
+
+    function updateMusicUI(status) {
+      musicStatus.textContent = status;
+      const playing = !audio.paused && !audio.ended;
+      musicToggle.textContent = playing ? "Ⅱ" : "▶";
+      musicToggle.setAttribute("aria-label", playing ? "Pause background music" : "Play background music");
+      musicToggle.title = playing ? "Pause music" : "Play music";
+      musicNote.classList.toggle("playing", playing);
+    }
+
+    async function startMusicAfterGesture() {
+      try {
+        // Called directly from the envelope tap so browsers can allow playback.
+        audio.muted = isMuted;
+        await audio.play();
+        updateMusicUI("Playing");
+      } catch (error) {
+        updateMusicUI("Tap play to start");
+      }
+    }
+
+    async function toggleMusic() {
+      if (!audio.paused && !audio.ended) {
+        audio.pause();
+        updateMusicUI("Paused");
+        return;
+      }
+      await startMusicAfterGesture();
+    }
+
+    musicToggle.addEventListener("click", toggleMusic);
+    muteToggle.addEventListener("click", () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      muteToggle.textContent = isMuted ? "×" : "♪";
+      muteToggle.setAttribute("aria-label", isMuted ? "Unmute background music" : "Mute background music");
+      updateMusicUI(isMuted ? "Muted" : (!audio.paused ? "Playing" : "Tap play to start"));
+    });
+
+    audio.addEventListener("play", () => updateMusicUI("Playing"));
+    audio.addEventListener("pause", () => updateMusicUI("Paused"));
+    audio.addEventListener("ended", () => updateMusicUI("Song ended"));
+    audio.addEventListener("error", () => updateMusicUI("MP3 file not found"));
+
+    createAmbientDecor();
+    updateMusicUI("Tap to play");
+  </script>
+</body>
+</html>
